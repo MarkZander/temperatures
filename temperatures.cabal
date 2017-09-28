@@ -16,7 +16,10 @@ cabal-version:       >=1.10
 library
   hs-source-dirs:      src
   exposed-modules:     Lib
+                     , TimeMap
   build-depends:       base >= 4.7 && < 5
+                     , time
+                     , containers
   default-language:    Haskell2010
 
 executable temperatures-exe
@@ -25,6 +28,16 @@ executable temperatures-exe
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   build-depends:       base
                      , temperatures
+                     , bytestring
+                     , vector
+                     , cassava
+                     , time
+                     , semigroups
+                     , containers
+                     , directory
+                     , turtle
+                     , foldl
+                     , text
   default-language:    Haskell2010
 
 test-suite temperatures-test
