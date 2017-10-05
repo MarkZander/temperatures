@@ -79,11 +79,20 @@ makeMap mask m v = V.foldr (insertTimeMap mask) m v
 mkList :: Shell a -> IO [a]
 mkList fp = fold fp Fold.list
 
+mkTimeMap :: TimeMask -> TimeMap -> FoldM IO Turtle.FilePath TimeMap
+mkTimeMap mask m = FoldM (reader mask) (return m) return
+
 freader :: TimeMask -> TimeMap -> Pattern Text ->
     Turtle.FilePath -> IO TimeMap
 freader mask m sensor dr = do
     f <- mkList $ files sensor dr
     F.foldlM (reader mask) m f
+
+freader' :: TimeMask -> TimeMap -> Pattern Text ->
+    Turtle.FilePath -> IO TimeMap
+freader' mask m sensor dr = do
+    let f = files sensor dr
+    foldIO f $ mkTimeMap mask m
 
 reader :: TimeMask -> TimeMap -> Turtle.FilePath -> IO TimeMap
 reader mask m = reader' mask m . filePathToString
